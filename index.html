@@ -55,11 +55,10 @@
 
     /* ───── HEADER ───── */
 
-    /* Same grid as content-layout — name over sidebar, title over photos */
+    /* ───── HEADER ───── */
+
     .site-header {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 0 80px;
+      display: flex;
       align-items: center;
       margin-bottom: 100px;
     }
@@ -69,11 +68,15 @@
       font-weight: 600;
       font-size: 60px;
       line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .header-right {
       display: flex;
       align-items: center;
+      flex: 1;
+      min-width: 0;
     }
 
     .header-rule {
@@ -302,7 +305,7 @@
       body { padding-left: 48px; padding-right: 48px; }
       .skip-link { left: 48px; }
       .site-name, .site-title { font-size: 40px; }
-      .site-header { margin-bottom: 72px; gap: 0 40px; }
+      .site-header { margin-bottom: 72px; }
       .content-layout { grid-template-columns: 150px 1fr; gap: 0 40px; }
     }
 
@@ -310,8 +313,8 @@
     @media (max-width: 900px) {
       body { padding-left: 36px; padding-right: 36px; }
       .skip-link { left: 36px; }
-      .site-header { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 56px; }
-      .header-right { display: contents; } /* flatten wrapper, show title directly */
+      .site-header { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 56px; }
+      .header-right { flex: none; }
       .header-rule { display: none; }
       .site-name  { font-size: 36px; }
       .site-title { font-size: 22px; white-space: normal; }
