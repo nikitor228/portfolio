@@ -6,7 +6,7 @@
   <title>Savelev Nikita — Photography</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,7 +17,40 @@
       color: #000;
       font-family: 'Saira', sans-serif;
       min-height: 100vh;
-      padding: 46px 48px 100px 48px;
+      padding: 46px 180px 100px 180px;
+    }
+
+    /* ───── SKIP LINK ───── */
+
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 180px;
+      padding: 8px 16px;
+      background: #000;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 200ms ease;
+    }
+
+    .skip-link:focus { top: 12px; }
+
+    /* ───── FOCUS STATES ───── */
+
+    .nav-item:focus-visible {
+      outline: 1.5px solid #000;
+      outline-offset: 4px;
+      border-radius: 1px;
+    }
+
+    .lb-btn:focus-visible,
+    .lb-close:focus-visible {
+      outline: 1.5px solid #fff;
+      outline-offset: 4px;
+      border-radius: 2px;
     }
 
     /* ───── HEADER ───── */
@@ -65,7 +98,12 @@
 
     /* ───── SIDEBAR ───── */
 
-    .sidebar-nav { position: sticky; top: 46px; }
+    /* sticky on the aside itself — required for CSS grid sticky to work */
+    .sticky-aside {
+      position: sticky;
+      top: 46px;
+      align-self: start;
+    }
 
     .nav-list {
       list-style: none;
@@ -74,21 +112,24 @@
     }
 
     .nav-item {
-      font-weight: 500;
-      font-size: 20px;
+      font-weight: 300;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       line-height: 1;
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: pointer;
-      transition: opacity 180ms ease;
+      transition: opacity 200ms ease;
       user-select: none;
+      padding: 4px 0; /* increases click/touch target */
     }
 
     .nav-item + .nav-item  { margin-top: 16px; }
-    .nav-item.nav-all      { margin-bottom: 58px; }
+    .nav-item.nav-all      { margin-bottom: 48px; letter-spacing: 0.18em; }
     .nav-item.nav-all + .nav-item { margin-top: 0; }
 
-    .nav-item:hover        { opacity: 0.75; }
-    .nav-item.active       { opacity: 1; }
+    .nav-item:hover        { opacity: 0.65; }
+    .nav-item.active       { opacity: 1; font-weight: 400; }
     .nav-item.active:hover { opacity: 1; }
 
     /* ───── PHOTO GRID ───── */
@@ -96,7 +137,10 @@
     .photo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-auto-flow: dense;
       gap: 20px;
+      max-width: 800px;
+      margin-left: auto;
     }
 
     .photo-item {
@@ -110,12 +154,28 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+      transition: opacity 400ms ease;
     }
 
-    .photo-item:hover img  { transform: scale(1.04); }
-    .photo-portrait        { aspect-ratio: 3 / 4; }
-    .photo-landscape       { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+    .photo-item img.loaded { opacity: 1; }
+
+    .photo-portrait  { aspect-ratio: 2 / 3; }
+    .photo-landscape { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
+
+    /* ───── SKELETON ───── */
+
+    .skeleton {
+      background: #f0f0f0;
+      background-image: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
 
     .grid-empty {
       grid-column: 1 / -1;
@@ -149,10 +209,8 @@
       max-height: 90vh;
       object-fit: contain;
       display: block;
-      transition: opacity 200ms ease;
+      transition: opacity 300ms ease;
     }
-
-    .lb-img.loading { opacity: 0.15; }
 
     .lb-btn {
       position: fixed;
@@ -165,6 +223,12 @@
       color: #fff;
       opacity: 0.5;
       transition: opacity 180ms ease;
+      /* min 44x44 touch target */
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .lb-btn:hover { opacity: 1; }
@@ -182,7 +246,12 @@
       color: #fff;
       opacity: 0.5;
       transition: opacity 180ms ease;
-      padding: 8px;
+      /* min 44x44 touch target */
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .lb-close:hover { opacity: 1; }
@@ -203,6 +272,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .photo-item img, .lightbox, .lb-img { transition: none; }
+      .skeleton { animation: none; }
     }
 
     /* ───── RESPONSIVE ───── */
@@ -221,7 +291,7 @@
       .site-title  { font-size: 28px; }
 
       .content-layout { grid-template-columns: 1fr; }
-      .sidebar-nav { position: static; margin-bottom: 36px; }
+      .sticky-aside { position: static; margin-bottom: 36px; }
       .nav-list    { flex-direction: row; flex-wrap: wrap; gap: 12px 24px; }
       .nav-item.nav-all { margin-bottom: 0; width: 100%; }
       .nav-item + .nav-item { margin-top: 0; }
@@ -231,6 +301,9 @@
   </style>
 </head>
 <body>
+
+  <!-- ── SKIP LINK ── -->
+  <a class="skip-link" href="#photo-grid">Skip to photos</a>
 
   <!-- ── HEADER ── -->
   <header class="site-header">
@@ -242,10 +315,10 @@
   <!-- ── CONTENT ── -->
   <div class="content-layout">
 
-    <aside>
-      <nav class="sidebar-nav" aria-label="Photo collections">
+    <aside class="sticky-aside">
+      <nav aria-label="Photo collections">
         <ul class="nav-list" id="nav-list">
-          <li class="nav-item nav-all active" data-filter="all"       tabindex="0">Full Personal Collection</li>
+          <li class="nav-item nav-all active" data-filter="all"       tabindex="0">Full Collection</li>
           <li class="nav-item"               data-filter="armenia"   tabindex="0">Armenia</li>
           <li class="nav-item"               data-filter="georgia"   tabindex="0">Georgia</li>
           <li class="nav-item"               data-filter="indonesia" tabindex="0">Indonesia</li>
@@ -259,7 +332,7 @@
 
     <main>
       <div class="photo-grid" id="photo-grid">
-        <p class="grid-empty">Loading photos…</p>
+        <!-- skeletons shown while loading -->
       </div>
     </main>
 
@@ -298,7 +371,20 @@
     let visiblePhotos = [];
     let lbIndex       = 0;
 
+    // ── SKELETONS ────────────────────────────────────────────────────────────
+
+    function showSkeletons() {
+      const grid = document.getElementById('photo-grid');
+      // 8 placeholder tiles: portrait, portrait, landscape, portrait, portrait, landscape, portrait, portrait
+      const pattern = ['portrait','portrait','landscape','portrait','portrait','landscape','portrait','portrait'];
+      grid.innerHTML = pattern.map(o =>
+        `<div class="photo-${o} skeleton"></div>`
+      ).join('');
+    }
+
     // ── LOAD ─────────────────────────────────────────────────────────────────
+
+    showSkeletons();
 
     fetch('photos.json')
       .then(r => r.json())
@@ -330,7 +416,13 @@
         const img = document.createElement('img');
         img.src     = thumb(photo.id);
         img.alt     = photo.alt;
-        img.loading = 'lazy';
+        // first 6 visible images load eagerly for faster LCP
+        img.loading = i < 6 ? 'eager' : 'lazy';
+
+        // fade in when loaded
+        img.onload = () => img.classList.add('loaded');
+        // if already cached, onload won't fire
+        if (img.complete) img.classList.add('loaded');
 
         div.appendChild(img);
         div.addEventListener('click', () => openLightbox(i));
@@ -364,6 +456,7 @@
       showPhoto(index);
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
+      document.getElementById('lb-close').focus();
     }
 
     function closeLightbox() {
@@ -373,15 +466,21 @@
 
     function showPhoto(index) {
       const photo = visiblePhotos[index];
-      lbImg.classList.add('loading');
       lbImg.alt = photo.alt;
 
-      // show thumbnail instantly, then swap to full-res when loaded
+      // show thumb immediately
+      lbImg.style.opacity = '1';
       lbImg.src = thumb(photo.id);
-      lbImg.classList.remove('loading');
 
+      // load full-res, fade in when ready
       const hi = new Image();
-      hi.onload = () => { lbImg.src = hi.src; };
+      hi.onload = () => {
+        lbImg.style.opacity = '0';
+        setTimeout(() => {
+          lbImg.src = hi.src;
+          lbImg.style.opacity = '1';
+        }, 150);
+      };
       hi.src = fullRes(photo.id);
 
       lbCounter.textContent = `${index + 1} / ${visiblePhotos.length}`;
@@ -410,7 +509,7 @@
       if (e.key === 'ArrowRight') nextPhoto();
     });
 
-    // swipe support
+    // swipe
     let touchStartX = 0;
     lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     lightbox.addEventListener('touchend',   e => {
