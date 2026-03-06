@@ -34,7 +34,7 @@ async function fetchAll() {
       results.push({
         id:          r.public_id,
         category:    folder,
-        orientation: r.width >= r.height ? 'landscape' : 'portrait',
+        orientation: r.width / r.height >= 1.5 ? 'landscape' : 'portrait',
         width:       r.width,
         height:      r.height,
         alt:         `Photography, ${folder.charAt(0).toUpperCase() + folder.slice(1)}`,
