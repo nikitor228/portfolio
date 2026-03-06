@@ -8,19 +8,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: #ffffff;
-      color: #000000;
+      background: #fff;
+      color: #000;
       font-family: 'Saira', sans-serif;
       min-height: 100vh;
       padding: 46px 48px 100px 48px;
@@ -31,7 +25,6 @@
     .site-header {
       display: flex;
       align-items: center;
-      gap: 0;
       margin-bottom: 100px;
     }
 
@@ -40,7 +33,6 @@
       font-weight: 600;
       font-size: 60px;
       line-height: 1;
-      color: #000;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -49,8 +41,7 @@
       flex: 1;
       height: 5px;
       background: #000;
-      margin: 0 36px;
-      margin-top: 8px; /* slight optical downward shift to feel like baseline alignment */
+      margin: 8px 36px 0;
       min-width: 32px;
     }
 
@@ -59,12 +50,11 @@
       font-weight: 600;
       font-size: 60px;
       line-height: 1;
-      color: #000;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
-    /* ───── CONTENT LAYOUT ───── */
+    /* ───── LAYOUT ───── */
 
     .content-layout {
       display: grid;
@@ -73,12 +63,9 @@
       align-items: start;
     }
 
-    /* ───── SIDEBAR NAV ───── */
+    /* ───── SIDEBAR ───── */
 
-    .sidebar-nav {
-      position: sticky;
-      top: 46px;
-    }
+    .sidebar-nav { position: sticky; top: 46px; }
 
     .nav-list {
       list-style: none;
@@ -87,40 +74,22 @@
     }
 
     .nav-item {
-      font-family: 'Saira', sans-serif;
       font-weight: 500;
       font-size: 20px;
       line-height: 1;
-      color: #000;
       opacity: 0.5;
       cursor: pointer;
       transition: opacity 180ms ease;
       user-select: none;
     }
 
-    .nav-item + .nav-item {
-      margin-top: 16px;
-    }
+    .nav-item + .nav-item  { margin-top: 16px; }
+    .nav-item.nav-all      { margin-bottom: 58px; }
+    .nav-item.nav-all + .nav-item { margin-top: 0; }
 
-    /* bigger gap between "Full Personal Collection" and location items */
-    .nav-item.nav-all {
-      margin-bottom: 58px;
-    }
-    .nav-item.nav-all + .nav-item {
-      margin-top: 0;
-    }
-
-    .nav-item:hover {
-      opacity: 0.75;
-    }
-
-    .nav-item.active {
-      opacity: 1;
-    }
-
-    .nav-item.active:hover {
-      opacity: 1;
-    }
+    .nav-item:hover        { opacity: 0.75; }
+    .nav-item.active       { opacity: 1; }
+    .nav-item.active:hover { opacity: 1; }
 
     /* ───── PHOTO GRID ───── */
 
@@ -141,95 +110,123 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  filter 400ms ease;
-      filter: grayscale(0%);
+      transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .photo-item:hover img {
-      transform: scale(1.04);
-    }
+    .photo-item:hover img  { transform: scale(1.04); }
+    .photo-portrait        { aspect-ratio: 3 / 4; }
+    .photo-landscape       { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
 
-    /* portrait: single column */
-    .photo-portrait {
-      aspect-ratio: 3 / 4;
-    }
-
-    /* landscape: spans both columns */
-    .photo-landscape {
+    .grid-empty {
       grid-column: 1 / -1;
-      aspect-ratio: 16 / 9;
+      padding: 60px 0;
+      font-size: 16px;
+      opacity: 0.4;
+    }
+
+    /* ───── LIGHTBOX ───── */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 250ms ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lb-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      transition: opacity 200ms ease;
+    }
+
+    .lb-img.loading { opacity: 0.15; }
+
+    .lb-btn {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 16px;
+      color: #fff;
+      opacity: 0.5;
+      transition: opacity 180ms ease;
+    }
+
+    .lb-btn:hover { opacity: 1; }
+    .lb-prev      { left: 16px; }
+    .lb-next      { right: 16px; }
+    .lb-btn svg   { width: 36px; height: 36px; display: block; }
+
+    .lb-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      opacity: 0.5;
+      transition: opacity 180ms ease;
+      padding: 8px;
+    }
+
+    .lb-close:hover { opacity: 1; }
+    .lb-close svg   { width: 28px; height: 28px; display: block; }
+
+    .lb-counter {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 13px;
+      opacity: 0.4;
+      letter-spacing: 0.08em;
     }
 
     /* ───── REDUCED MOTION ───── */
 
     @media (prefers-reduced-motion: reduce) {
-      .photo-item img {
-        transition: none;
-      }
+      .photo-item img, .lightbox, .lb-img { transition: none; }
     }
 
     /* ───── RESPONSIVE ───── */
 
     @media (max-width: 1024px) {
-      .site-name,
-      .site-title {
-        font-size: 44px;
-      }
-
-      .content-layout {
-        grid-template-columns: 160px 1fr;
-        gap: 0 48px;
-      }
+      .site-name, .site-title { font-size: 44px; }
+      .content-layout { grid-template-columns: 160px 1fr; gap: 0 48px; }
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 32px 24px 80px 24px;
-      }
+      body { padding: 32px 24px 80px; }
 
-      .site-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 48px;
-      }
+      .site-header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 48px; }
+      .header-rule { display: none; }
+      .site-name   { font-size: 40px; }
+      .site-title  { font-size: 28px; }
 
-      .header-rule {
-        display: none;
-      }
+      .content-layout { grid-template-columns: 1fr; }
+      .sidebar-nav { position: static; margin-bottom: 36px; }
+      .nav-list    { flex-direction: row; flex-wrap: wrap; gap: 12px 24px; }
+      .nav-item.nav-all { margin-bottom: 0; width: 100%; }
+      .nav-item + .nav-item { margin-top: 0; }
 
-      .site-name {
-        font-size: 40px;
-      }
-
-      .site-title {
-        font-size: 28px;
-      }
-
-      .content-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar-nav {
-        position: static;
-        margin-bottom: 36px;
-      }
-
-      .nav-list {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 12px 24px;
-      }
-
-      .nav-item.nav-all {
-        margin-bottom: 0;
-        width: 100%;
-      }
-
-      .nav-item + .nav-item {
-        margin-top: 0;
-      }
+      .lb-btn { display: none; }
     }
   </style>
 </head>
@@ -245,98 +242,181 @@
   <!-- ── CONTENT ── -->
   <div class="content-layout">
 
-    <!-- Left: navigation -->
     <aside>
       <nav class="sidebar-nav" aria-label="Photo collections">
-        <ul class="nav-list">
-          <li class="nav-item nav-all" data-filter="all" tabindex="0">Full Personal Collection</li>
-          <li class="nav-item active" data-filter="georgia" tabindex="0">Georgia</li>
-          <li class="nav-item" data-filter="vietnam" tabindex="0">Vietnam</li>
-          <li class="nav-item" data-filter="russia" tabindex="0">Russia</li>
-          <li class="nav-item" data-filter="indonesia" tabindex="0">Indonesia</li>
-          <li class="nav-item" data-filter="thailand" tabindex="0">Thailand</li>
+        <ul class="nav-list" id="nav-list">
+          <li class="nav-item nav-all active" data-filter="all"       tabindex="0">Full Personal Collection</li>
+          <li class="nav-item"               data-filter="armenia"   tabindex="0">Armenia</li>
+          <li class="nav-item"               data-filter="georgia"   tabindex="0">Georgia</li>
+          <li class="nav-item"               data-filter="indonesia" tabindex="0">Indonesia</li>
+          <li class="nav-item"               data-filter="russia"    tabindex="0">Russia</li>
+          <li class="nav-item"               data-filter="thailand"  tabindex="0">Thailand</li>
+          <li class="nav-item"               data-filter="turkey"    tabindex="0">Turkey</li>
+          <li class="nav-item"               data-filter="vietnam"   tabindex="0">Vietnam</li>
         </ul>
       </nav>
     </aside>
 
-    <!-- Right: photo grid -->
     <main>
-      <div class="photo-grid">
-
-        <!-- Row 1: two portrait photos -->
-        <div class="photo-item photo-portrait" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/029413bb-f261-414f-9dc4-841436bbd8e2"
-            alt="Street photography, Georgia"
-            loading="lazy"
-          >
-        </div>
-        <div class="photo-item photo-portrait" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/780a0459-1a8f-4c6d-aaaa-f83ff2e65051"
-            alt="Street photography, Georgia"
-            loading="lazy"
-          >
-        </div>
-
-        <!-- Row 2: landscape photo — spans both columns -->
-        <div class="photo-item photo-landscape" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/a3c41dba-02e7-4e3d-a38a-3e825e8c730e"
-            alt="Street scene, Georgia"
-            loading="lazy"
-          >
-        </div>
-
-        <!-- Row 3: two portrait photos -->
-        <div class="photo-item photo-portrait" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/7a7a165f-3b13-4a93-ab1e-6e87a9ee771d"
-            alt="Street photography, Georgia"
-            loading="lazy"
-          >
-        </div>
-        <div class="photo-item photo-portrait" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/970ec0b1-a036-41e0-a957-a299590fdaea"
-            alt="Street photography, Georgia"
-            loading="lazy"
-          >
-        </div>
-
-        <!-- Row 4: single portrait photo -->
-        <div class="photo-item photo-portrait" data-category="georgia">
-          <img
-            src="https://www.figma.com/api/mcp/asset/951f8b1e-7570-4412-8909-a747c23f7784"
-            alt="Street photography, Georgia"
-            loading="lazy"
-          >
-        </div>
-
+      <div class="photo-grid" id="photo-grid">
+        <p class="grid-empty">Loading photos…</p>
       </div>
     </main>
 
   </div>
 
-  <script>
-    const navItems = document.querySelectorAll('.nav-item');
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lb-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </svg>
+    </button>
 
-    navItems.forEach(item => {
-      item.addEventListener('click', () => activateFilter(item));
-      item.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          activateFilter(item);
-        }
+    <img class="lb-img" id="lb-img" src="" alt="">
+
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+
+  <script>
+    const CLOUD   = 'dxvpalhqh';
+    const thumb   = id => `https://res.cloudinary.com/${CLOUD}/image/upload/w_1200,q_auto,f_auto/${id}`;
+    const fullRes = id => `https://res.cloudinary.com/${CLOUD}/image/upload/q_auto/${id}`;
+
+    let allPhotos     = [];
+    let visiblePhotos = [];
+    let lbIndex       = 0;
+
+    // ── LOAD ─────────────────────────────────────────────────────────────────
+
+    fetch('photos.json')
+      .then(r => r.json())
+      .then(data => {
+        allPhotos = data;
+        renderGrid(allPhotos);
+      })
+      .catch(() => {
+        document.getElementById('photo-grid').innerHTML =
+          '<p class="grid-empty">photos.json not found — run <code>node scripts/generate-manifest.js</code> first, then open via a local server.</p>';
       });
+
+    // ── GRID ─────────────────────────────────────────────────────────────────
+
+    function renderGrid(photos) {
+      const grid = document.getElementById('photo-grid');
+      visiblePhotos = photos;
+
+      if (!photos.length) {
+        grid.innerHTML = '<p class="grid-empty">No photos in this collection.</p>';
+        return;
+      }
+
+      grid.innerHTML = '';
+      photos.forEach((photo, i) => {
+        const div = document.createElement('div');
+        div.className = `photo-item photo-${photo.orientation}`;
+
+        const img = document.createElement('img');
+        img.src     = thumb(photo.id);
+        img.alt     = photo.alt;
+        img.loading = 'lazy';
+
+        div.appendChild(img);
+        div.addEventListener('click', () => openLightbox(i));
+        grid.appendChild(div);
+      });
+    }
+
+    // ── NAV ──────────────────────────────────────────────────────────────────
+
+    document.getElementById('nav-list').addEventListener('click', e => {
+      const item = e.target.closest('.nav-item');
+      if (!item) return;
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      const filter = item.dataset.filter;
+      renderGrid(filter === 'all' ? allPhotos : allPhotos.filter(p => p.category === filter));
     });
 
-    function activateFilter(item) {
-      navItems.forEach(n => n.classList.remove('active'));
-      item.classList.add('active');
-      // Photo filtering logic can be added here when
-      // photos are organised by data-category attribute
+    document.getElementById('nav-list').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.target.click(); }
+    });
+
+    // ── LIGHTBOX ─────────────────────────────────────────────────────────────
+
+    const lightbox  = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lb-img');
+    const lbCounter = document.getElementById('lb-counter');
+
+    function openLightbox(index) {
+      lbIndex = index;
+      showPhoto(index);
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showPhoto(index) {
+      const photo = visiblePhotos[index];
+      lbImg.classList.add('loading');
+      lbImg.alt = photo.alt;
+
+      // show thumbnail instantly, then swap to full-res when loaded
+      lbImg.src = thumb(photo.id);
+      lbImg.classList.remove('loading');
+
+      const hi = new Image();
+      hi.onload = () => { lbImg.src = hi.src; };
+      hi.src = fullRes(photo.id);
+
+      lbCounter.textContent = `${index + 1} / ${visiblePhotos.length}`;
+    }
+
+    function prevPhoto() {
+      lbIndex = (lbIndex - 1 + visiblePhotos.length) % visiblePhotos.length;
+      showPhoto(lbIndex);
+    }
+
+    function nextPhoto() {
+      lbIndex = (lbIndex + 1) % visiblePhotos.length;
+      showPhoto(lbIndex);
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+    document.getElementById('lb-prev').addEventListener('click', prevPhoto);
+    document.getElementById('lb-next').addEventListener('click', nextPhoto);
+
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  prevPhoto();
+      if (e.key === 'ArrowRight') nextPhoto();
+    });
+
+    // swipe support
+    let touchStartX = 0;
+    lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend',   e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) dx < 0 ? nextPhoto() : prevPhoto();
+    });
   </script>
 
 </body>
