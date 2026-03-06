@@ -116,7 +116,7 @@
       font-size: 15px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      line-height: 1;
+      line-height: 1.8;
       opacity: 0.4;
       cursor: pointer;
       transition: opacity 200ms ease;
@@ -124,7 +124,7 @@
       padding: 4px 0; /* increases click/touch target */
     }
 
-    .nav-item + .nav-item  { margin-top: 16px; }
+    .nav-item + .nav-item  { margin-top: 12px; }
     .nav-item.nav-all      { margin-bottom: 48px; letter-spacing: 0.18em; }
     .nav-item.nav-all + .nav-item { margin-top: 0; }
 
@@ -277,8 +277,8 @@
 
     /* ───── RESPONSIVE ───── */
 
-    /* Prevent horizontal scroll globally */
-    html, body { overflow-x: hidden; }
+    /* Prevent horizontal scroll without breaking position: sticky */
+    html, body { overflow-x: clip; }
 
     /* Large desktop — trim padding */
     @media (max-width: 1400px) {
