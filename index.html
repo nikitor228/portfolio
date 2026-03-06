@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savelev Nikita — Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #ffffff;
+      color: #000000;
+      font-family: 'Saira', sans-serif;
+      min-height: 100vh;
+      padding: 46px 48px 100px 48px;
+    }
+
+    /* ───── HEADER ───── */
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 100px;
+    }
+
+    .site-name {
+      font-family: 'Crimson Text', serif;
+      font-weight: 600;
+      font-size: 60px;
+      line-height: 1;
+      color: #000;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .header-rule {
+      flex: 1;
+      height: 5px;
+      background: #000;
+      margin: 0 36px;
+      margin-top: 8px; /* slight optical downward shift to feel like baseline alignment */
+      min-width: 32px;
+    }
+
+    .site-title {
+      font-family: 'Crimson Text', serif;
+      font-weight: 600;
+      font-size: 60px;
+      line-height: 1;
+      color: #000;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ───── CONTENT LAYOUT ───── */
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0 80px;
+      align-items: start;
+    }
+
+    /* ───── SIDEBAR NAV ───── */
+
+    .sidebar-nav {
+      position: sticky;
+      top: 46px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-item {
+      font-family: 'Saira', sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 1;
+      color: #000;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 180ms ease;
+      user-select: none;
+    }
+
+    .nav-item + .nav-item {
+      margin-top: 16px;
+    }
+
+    /* bigger gap between "Full Personal Collection" and location items */
+    .nav-item.nav-all {
+      margin-bottom: 58px;
+    }
+    .nav-item.nav-all + .nav-item {
+      margin-top: 0;
+    }
+
+    .nav-item:hover {
+      opacity: 0.75;
+    }
+
+    .nav-item.active {
+      opacity: 1;
+    }
+
+    .nav-item.active:hover {
+      opacity: 1;
+    }
+
+    /* ───── PHOTO GRID ───── */
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .photo-item {
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 400ms ease;
+      filter: grayscale(0%);
+    }
+
+    .photo-item:hover img {
+      transform: scale(1.04);
+    }
+
+    /* portrait: single column */
+    .photo-portrait {
+      aspect-ratio: 3 / 4;
+    }
+
+    /* landscape: spans both columns */
+    .photo-landscape {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 9;
+    }
+
+    /* ───── REDUCED MOTION ───── */
+
+    @media (prefers-reduced-motion: reduce) {
+      .photo-item img {
+        transition: none;
+      }
+    }
+
+    /* ───── RESPONSIVE ───── */
+
+    @media (max-width: 1024px) {
+      .site-name,
+      .site-title {
+        font-size: 44px;
+      }
+
+      .content-layout {
+        grid-template-columns: 160px 1fr;
+        gap: 0 48px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 32px 24px 80px 24px;
+      }
+
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 48px;
+      }
+
+      .header-rule {
+        display: none;
+      }
+
+      .site-name {
+        font-size: 40px;
+      }
+
+      .site-title {
+        font-size: 28px;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar-nav {
+        position: static;
+        margin-bottom: 36px;
+      }
+
+      .nav-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+      }
+
+      .nav-item.nav-all {
+        margin-bottom: 0;
+        width: 100%;
+      }
+
+      .nav-item + .nav-item {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <span class="site-name">Savelev Nikita</span>
+    <span class="header-rule" aria-hidden="true"></span>
+    <span class="site-title">Street &amp; Travel Photography</span>
+  </header>
+
+  <!-- ── CONTENT ── -->
+  <div class="content-layout">
+
+    <!-- Left: navigation -->
+    <aside>
+      <nav class="sidebar-nav" aria-label="Photo collections">
+        <ul class="nav-list">
+          <li class="nav-item nav-all" data-filter="all" tabindex="0">Full Personal Collection</li>
+          <li class="nav-item active" data-filter="georgia" tabindex="0">Georgia</li>
+          <li class="nav-item" data-filter="vietnam" tabindex="0">Vietnam</li>
+          <li class="nav-item" data-filter="russia" tabindex="0">Russia</li>
+          <li class="nav-item" data-filter="indonesia" tabindex="0">Indonesia</li>
+          <li class="nav-item" data-filter="thailand" tabindex="0">Thailand</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Right: photo grid -->
+    <main>
+      <div class="photo-grid">
+
+        <!-- Row 1: two portrait photos -->
+        <div class="photo-item photo-portrait" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/029413bb-f261-414f-9dc4-841436bbd8e2"
+            alt="Street photography, Georgia"
+            loading="lazy"
+          >
+        </div>
+        <div class="photo-item photo-portrait" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/780a0459-1a8f-4c6d-aaaa-f83ff2e65051"
+            alt="Street photography, Georgia"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Row 2: landscape photo — spans both columns -->
+        <div class="photo-item photo-landscape" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/a3c41dba-02e7-4e3d-a38a-3e825e8c730e"
+            alt="Street scene, Georgia"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Row 3: two portrait photos -->
+        <div class="photo-item photo-portrait" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/7a7a165f-3b13-4a93-ab1e-6e87a9ee771d"
+            alt="Street photography, Georgia"
+            loading="lazy"
+          >
+        </div>
+        <div class="photo-item photo-portrait" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/970ec0b1-a036-41e0-a957-a299590fdaea"
+            alt="Street photography, Georgia"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Row 4: single portrait photo -->
+        <div class="photo-item photo-portrait" data-category="georgia">
+          <img
+            src="https://www.figma.com/api/mcp/asset/951f8b1e-7570-4412-8909-a747c23f7784"
+            alt="Street photography, Georgia"
+            loading="lazy"
+          >
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => activateFilter(item));
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateFilter(item);
+        }
+      });
+    });
+
+    function activateFilter(item) {
+      navItems.forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      // Photo filtering logic can be added here when
+      // photos are organised by data-category attribute
+    }
+  </script>
+
+</body>
+</html>
