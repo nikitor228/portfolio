@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savelev Nikita — Photography</title>
+  <title>Savelev Nikita — Street &amp; Travel Photography</title>
+  <meta name="description" content="Street and travel photography by Nikita Savelev. Photographs from Georgia, Turkey, Vietnam, Indonesia, Russia, Thailand, Armenia.">
+  <meta name="author" content="Nikita Savelev">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Savelev Nikita — Street &amp; Travel Photography">
+  <meta property="og:description" content="Street and travel photography from Georgia, Turkey, Vietnam, Indonesia, Russia, Thailand, Armenia.">
+  <meta property="og:image" content="https://res.cloudinary.com/dxvpalhqh/image/upload/w_1200,q_auto,f_auto/DSCF0610_coynk5">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@300;400;500&display=swap" rel="stylesheet">
@@ -58,33 +66,36 @@
     .site-header {
       display: flex;
       align-items: center;
-      margin-bottom: 100px;
+      margin-bottom: 50px;
     }
 
     .site-name {
       font-family: 'Crimson Text', serif;
       font-weight: 600;
-      font-size: 60px;
+      font-size: clamp(42px, 4vw, 64px);
       line-height: 1;
       white-space: nowrap;
-      flex-shrink: 0;
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     .header-rule {
       flex: 1;
-      height: 5px;
-      background: #000;
-      margin: 8px 36px 0;
       min-width: 32px;
+      margin: 0 20px;
+      align-self: center;
+      margin-top: 4px;
+      display: block;
     }
 
     .site-title {
       font-family: 'Crimson Text', serif;
       font-weight: 600;
-      font-size: 60px;
+      font-size: clamp(42px, 4vw, 64px);
       line-height: 1;
       white-space: nowrap;
-      flex-shrink: 0;
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     /* ───── LAYOUT ───── */
@@ -94,6 +105,54 @@
       grid-template-columns: 200px 1fr;
       gap: 0 80px;
       align-items: start;
+    }
+
+    /* ───── SOCIAL LINKS ───── */
+
+    .social-links {
+      position: fixed;
+      bottom: 46px;
+      left: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .social-icons-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .social-copyright {
+      font-family: 'Saira', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      opacity: 0.3;
+      user-select: none;
+    }
+
+    .social-icon {
+      display: flex;
+      color: #000;
+      opacity: 0.4;
+      transition: opacity 200ms ease;
+      text-decoration: none;
+    }
+
+    .social-icon:hover { opacity: 0.65; }
+
+    .social-icon:focus-visible {
+      outline: 1.5px solid #000;
+      outline-offset: 4px;
+      border-radius: 1px;
+    }
+
+    .social-icon svg {
+      width: 22px;
+      height: 22px;
+      display: block;
     }
 
     /* ───── SIDEBAR ───── */
@@ -124,7 +183,7 @@
       padding: 4px 0; /* increases click/touch target */
     }
 
-    .nav-item + .nav-item  { margin-top: 12px; }
+    .nav-item + .nav-item  { margin-top: 8px; }
     .nav-item.nav-all      { margin-bottom: 48px; letter-spacing: 0.18em; }
     .nav-item.nav-all + .nav-item { margin-top: 0; }
 
@@ -284,59 +343,87 @@
     @media (max-width: 1400px) {
       body { padding-left: 120px; padding-right: 120px; }
       .skip-link { left: 120px; }
+      .site-name, .site-title { font-size: clamp(46px, 4vw, 54px); }
+      .social-links { left: 120px; }
     }
 
     /* Medium desktop */
     @media (max-width: 1200px) {
       body { padding-left: 80px; padding-right: 80px; }
       .skip-link { left: 80px; }
-      .site-name, .site-title { font-size: 48px; }
+      .site-name, .site-title { font-size: clamp(44px, 4.5vw, 50px); }
+      .social-links { left: 80px; }
     }
 
     /* Small desktop */
     @media (max-width: 1024px) {
       body { padding-left: 48px; padding-right: 48px; }
       .skip-link { left: 48px; }
-      .site-name, .site-title { font-size: 40px; }
-      .site-header { margin-bottom: 72px; }
+      .site-name, .site-title { font-size: clamp(38px, 4.5vw, 46px); }
+      .site-header { margin-bottom: 22px; }
       .content-layout { grid-template-columns: 150px 1fr; gap: 0 40px; }
       .photo-grid { max-width: 100%; }
+      .social-links { left: 48px; }
     }
 
     /* Tablet landscape — header goes vertical before it overflows */
     @media (max-width: 900px) {
       body { padding-left: 36px; padding-right: 36px; }
       .skip-link { left: 36px; }
-      .site-header { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 56px; }
+      .site-header { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 36px; }
       .header-rule { display: none; }
-      .site-name  { font-size: 36px; white-space: normal; }
-      .site-title { font-size: 22px; white-space: normal; }
+      .site-name  { font-size: 40px; white-space: normal; }
+      .site-title { font-size: 26px; white-space: normal; }
       .content-layout { grid-template-columns: 130px 1fr; gap: 0 32px; }
+      .social-links { left: 36px; }
+    }
+
+    /* ───── SITE FOOTER (copyright, mobile only) ───── */
+
+    .site-footer {
+      display: none;
     }
 
     /* Tablet portrait — sidebar moves to top */
     @media (max-width: 700px) {
-      body { padding: 32px 28px 80px; }
+      body { padding: 32px 28px 110px; }
       .skip-link { left: 28px; }
-      .site-name  { font-size: 32px; }
-      .site-title { font-size: 20px; }
+      .site-header { align-items: center; gap: 8px; }
+      .site-name  { font-size: 11vw; text-align: center; }
+      .site-title { font-size: 7vw; text-align: center; }
       .content-layout { grid-template-columns: 1fr; }
       .sticky-aside { position: static; margin-bottom: 28px; }
-      .nav-list { flex-direction: row; flex-wrap: wrap; gap: 10px 20px; }
-      .nav-item { font-size: 13px; }
-      .nav-item.nav-all { margin-bottom: 0; width: 100%; }
+      .nav-list { flex-direction: row; flex-wrap: wrap; row-gap: 0; column-gap: 12px; justify-content: center; }
+      .nav-item { font-size: 16px; padding: 3px 10px; }
+      .nav-item.nav-all { margin-bottom: 0; width: auto; text-align: center; }
       .nav-item + .nav-item { margin-top: 0; }
-      .photo-grid { max-width: 100%; margin-left: 0; }
+      .photo-grid { max-width: 100%; }
       .lb-btn { display: none; }
+      .social-links {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        gap: 32px;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 100px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        white-space: nowrap;
+      }
+      .social-copyright { display: none; }
+      .social-icon svg { width: 28px; height: 28px; }
+      .site-footer { display: block; margin-top: 32px; text-align: center; font-family: 'Saira', sans-serif; font-weight: 300; font-size: 11px; letter-spacing: 0.06em; opacity: 0.3; }
     }
 
     /* Mobile */
     @media (max-width: 480px) {
-      body { padding: 24px 20px 60px; }
+      body { padding: 24px 20px 100px; }
       .skip-link { left: 20px; }
-      .site-name  { font-size: 28px; }
-      .site-title { font-size: 17px; }
-      .nav-item { font-size: 12px; letter-spacing: 0.13em; }
+      .nav-item { font-size: 15px; letter-spacing: 0.13em; }
       .photo-grid { gap: 10px; }
       .photo-landscape { aspect-ratio: 4 / 3; }
       .photo-portrait  { aspect-ratio: 3 / 4; }
@@ -351,7 +438,7 @@
   <!-- ── HEADER ── -->
   <header class="site-header">
     <span class="site-name">Savelev Nikita</span>
-    <span class="header-rule" aria-hidden="true"></span>
+    <span class="header-rule" aria-hidden="true"><svg width="100%" height="5" viewBox="2 -26 97 7" preserveAspectRatio="none" fill="currentColor" style="display:block"><path d="M96.8750-19.2383L3.0273-19.2383Q2.4414-19.7266 2.4414-20.1172L2.4414-20.1172Q2.4414-20.8984 2.5879-22.2656Q2.7344-23.6328 3.0762-24.7559Q3.4180-25.8789 3.8086-25.8789L3.8086-25.8789L97.8516-25.8789Q98.4375-25.8789 98.4375-25L98.4375-25Q98.4375-23.4375 97.5586-19.9219L97.5586-19.9219Q97.4609-19.3359 96.8750-19.2383L96.8750-19.2383Z"/></svg></span>
     <span class="site-title">Street &amp; Travel Photography</span>
   </header>
 
@@ -362,14 +449,34 @@
       <nav aria-label="Photo collections">
         <ul class="nav-list" id="nav-list">
           <li class="nav-item nav-all active" data-filter="all"       tabindex="0">Full Collection</li>
-          <li class="nav-item"               data-filter="armenia"   tabindex="0">Armenia</li>
           <li class="nav-item"               data-filter="georgia"   tabindex="0">Georgia</li>
-          <li class="nav-item"               data-filter="indonesia" tabindex="0">Indonesia</li>
+          <li class="nav-item"               data-filter="vietnam"   tabindex="0">Vietnam</li>
           <li class="nav-item"               data-filter="russia"    tabindex="0">Russia</li>
+          <li class="nav-item"               data-filter="indonesia" tabindex="0">Indonesia</li>
           <li class="nav-item"               data-filter="thailand"  tabindex="0">Thailand</li>
           <li class="nav-item"               data-filter="turkey"    tabindex="0">Turkey</li>
-          <li class="nav-item"               data-filter="vietnam"   tabindex="0">Vietnam</li>
+          <li class="nav-item"               data-filter="armenia"   tabindex="0">Armenia</li>
         </ul>
+        <div class="social-links">
+          <div class="social-icons-row">
+            <a href="https://www.instagram.com/noobitter" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </a>
+            <a href="https://t.me/nikitor" class="social-icon" aria-label="Telegram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
+            </a>
+            <a href="https://www.threads.com/@noobitter" class="social-icon" aria-label="Threads" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/>
+              </svg>
+            </a>
+          </div>
+          <p class="social-copyright">© 2025 Nikita Savelev</p>
+        </div>
       </nav>
     </aside>
 
@@ -380,6 +487,8 @@
     </main>
 
   </div>
+
+  <footer class="site-footer">© 2025 Nikita Savelev</footer>
 
   <!-- ── LIGHTBOX ── -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
@@ -434,6 +543,12 @@
       .then(data => {
         allPhotos = data;
         renderGrid(allPhotos);
+        // open photo from URL hash (e.g. shared link)
+        if (location.hash) {
+          const id = decodeURIComponent(location.hash.slice(1));
+          const idx = allPhotos.findIndex(p => p.id === id);
+          if (idx !== -1) openLightbox(idx);
+        }
       })
       .catch(() => {
         document.getElementById('photo-grid').innerHTML =
@@ -500,11 +615,13 @@
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
       document.getElementById('lb-close').focus();
+      history.replaceState(null, '', '#' + encodeURIComponent(visiblePhotos[index].id));
     }
 
     function closeLightbox() {
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
+      history.replaceState(null, '', location.pathname);
     }
 
     function showPhoto(index) {
