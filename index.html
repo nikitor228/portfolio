@@ -342,6 +342,12 @@
     /* Prevent horizontal scroll without breaking position: sticky */
     html, body { overflow-x: clip; }
 
+    /* Ultra-wide — body is centered, fixed elements must follow */
+    @media (min-width: 1601px) {
+      .social-links { left: calc(50vw - 620px); }
+      .skip-link    { left: calc(50vw - 620px); }
+    }
+
     /* Large desktop — trim padding */
     @media (max-width: 1400px) {
       body { padding-left: 120px; padding-right: 120px; }
@@ -671,6 +677,12 @@
       if (e.key === 'ArrowLeft')  prevPhoto();
       if (e.key === 'ArrowRight') nextPhoto();
     });
+
+    // scroll to navigate
+    lightbox.addEventListener('wheel', e => {
+      e.preventDefault();
+      if (e.deltaY > 0 || e.deltaX > 0) nextPhoto(); else prevPhoto();
+    }, { passive: false });
 
     // swipe
     let touchStartX = 0;
