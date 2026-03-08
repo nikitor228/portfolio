@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@300;400;500&display=swap" rel="stylesheet">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="4011ff59-fcb3-4544-9640-637b6a79970c"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -645,6 +646,7 @@
       document.body.style.overflow = 'hidden';
       document.getElementById('lb-close').focus();
       history.replaceState(null, '', '#' + encodeURIComponent(visiblePhotos[index].id));
+      umami.track('photo_open', { photo_id: visiblePhotos[index].id, country: visiblePhotos[index].country });
     }
 
     function closeLightbox() {
@@ -712,6 +714,18 @@
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 50) dx < 0 ? nextPhoto() : prevPhoto();
     });
+
+    // scroll depth
+    const scrollDepths = new Set();
+    window.addEventListener('scroll', () => {
+      const pct = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+      [25, 50, 75, 100].forEach(d => {
+        if (pct >= d && !scrollDepths.has(d)) {
+          scrollDepths.add(d);
+          umami.track('scroll_depth', { percent: d });
+        }
+      });
+    }, { passive: true });
   </script>
 
 </body>
