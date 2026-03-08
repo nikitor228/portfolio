@@ -17,7 +17,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Saira:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Saira:wght@300;400;500;800&display=swap" rel="stylesheet">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="4011ff59-fcb3-4544-9640-637b6a79970c"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -259,6 +259,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding-bottom: 80px;
       z-index: 100;
       opacity: 0;
       pointer-events: none;
@@ -335,15 +336,55 @@
     .lb-close:hover { opacity: 1; }
     .lb-close svg   { width: 28px; height: 28px; display: block; }
 
-    .lb-counter {
+    .lb-like {
       position: fixed;
-      bottom: 24px;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: none;
+      border: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Saira', sans-serif;
+      white-space: nowrap;
+      padding: 8px 12px;
+      transition: none;
+    }
+    .lb-like-icon { width: 32px; height: 29px; flex-shrink: 0; }
+    .lb-like-icon svg { width: 32px; height: 29px; display: block; color: rgba(255,255,255,0.4); transition: color 180ms ease; }
+    .lb-like.liked .lb-like-icon svg { color: #fff; }
+    .lb-like-icon svg text { fill: #fff; transition: fill 180ms ease; }
+    .lb-like.liked .lb-like-icon svg text { fill: #000; }
+    .lb-like.liked .lb-like-count { color: #000; }
+    .lb-like-label { font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.4); line-height: 1; transition: color 180ms ease; }
+    .lb-like.liked .lb-like-label { color: rgba(255,255,255,0.8); }
+
+    @keyframes like-pop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.3); }
+      70%  { transform: scale(0.93); }
+      100% { transform: scale(1); }
+    }
+    .lb-like-icon.pop { animation: like-pop 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+    @keyframes float-up {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-32px); }
+    }
+    .like-float {
+      position: fixed;
       left: 50%;
       transform: translateX(-50%);
       color: #fff;
-      font-size: 13px;
-      opacity: 0.4;
+      font-family: 'Saira', sans-serif;
+      font-size: 12px;
       letter-spacing: 0.08em;
+      pointer-events: none;
+      animation: float-up 0.7s ease forwards;
     }
 
     /* ───── REDUCED MOTION ───── */
@@ -411,11 +452,11 @@
 
     /* Tablet portrait — sidebar moves to top */
     @media (max-width: 700px) {
-      body { padding: 32px 28px 110px; }
+      body { padding: 24px 28px 110px; }
       .skip-link { left: 28px; }
-      .site-header { align-items: center; gap: 8px; }
-      .site-name  { font-size: 11vw; text-align: center; }
-      .site-title { font-size: 7vw; text-align: center; }
+      .site-header { align-items: center; gap: 6px; }
+      .site-name  { font-size: 16vw; text-align: left; font-weight: 400; white-space: nowrap; }
+      .site-title { font-size: 7.5vw; text-align: left; white-space: nowrap; }
       .content-layout { grid-template-columns: 1fr; }
       .sticky-aside { position: static; margin-bottom: 28px; }
       .nav-list { flex-direction: row; flex-wrap: wrap; row-gap: 0; column-gap: 12px; justify-content: center; }
@@ -446,7 +487,7 @@
 
     /* Mobile */
     @media (max-width: 480px) {
-      body { padding: 24px 20px 100px; }
+      body { padding: 16px 20px 100px; }
       .skip-link { left: 20px; }
       .nav-item { font-size: 15px; letter-spacing: 0.13em; }
       .photo-grid { gap: 10px; }
@@ -539,11 +580,21 @@
       </svg>
     </button>
 
-    <div class="lb-counter" id="lb-counter"></div>
+    <button class="lb-like" id="lb-like" aria-label="Like photo">
+      <span class="lb-like-icon" id="lb-like-icon">
+        <svg viewBox="0 0 32 29" fill="none" stroke="none">
+          <path d="M14.3436 27.1208C15.3964 27.6042 16.6037 27.6042 17.6566 27.121C23.7321 24.3324 30.1715 16.6618 30.1715 10.2582C30.1715 5.09726 26.6082 1.5166 22.1372 1.5166C19.3534 1.5166 17.2616 3.05454 16 5.35935C14.7615 3.06605 12.6441 1.5166 9.86288 1.5166C5.39188 1.5166 1.82861 5.09726 1.82861 10.2582C1.82861 16.6579 8.27006 24.3319 14.3436 27.1208Z" fill="currentColor"/>
+          <text id="lb-like-count" x="16" y="15" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="800" font-family="Saira, sans-serif"></text>
+        </svg>
+      </span>
+      <span class="lb-like-label">Nice photo!</span>
+    </button>
   </div>
 
   <script>
     const CLOUD   = 'dxvpalhqh';
+    const SB_URL  = 'https://yoljmmcfpzptztxajjeg.supabase.co';
+    const SB_KEY  = 'sb_publishable_mjEdOqHU0wPTRGBn0IcL6w_5iQ2lrkT';
     const thumb   = id => `https://res.cloudinary.com/${CLOUD}/image/upload/w_1200,q_auto,f_auto/${id}`;
     const fullRes = id => `https://res.cloudinary.com/${CLOUD}/image/upload/q_auto/${id}`;
 
@@ -636,7 +687,6 @@
     const lightbox  = document.getElementById('lightbox');
     const lbThumb   = document.getElementById('lb-thumb');
     const lbHires   = document.getElementById('lb-hires');
-    const lbCounter = document.getElementById('lb-counter');
     let loadToken   = 0;
 
     function openLightbox(index) {
@@ -646,7 +696,7 @@
       document.body.style.overflow = 'hidden';
       document.getElementById('lb-close').focus();
       history.replaceState(null, '', '#' + encodeURIComponent(visiblePhotos[index].id));
-      umami.track('photo_open', { photo_id: visiblePhotos[index].id, country: visiblePhotos[index].country });
+      try { umami.track('photo_open', { photo_id: visiblePhotos[index].id, country: visiblePhotos[index].category }); } catch {}
     }
 
     function closeLightbox() {
@@ -658,6 +708,7 @@
     function showPhoto(index) {
       const photo = visiblePhotos[index];
       const token = ++loadToken;
+      updateLikeButton(photo.id);
 
       // reset hi-res overlay, show thumb immediately
       lbHires.style.opacity = '0';
@@ -675,7 +726,6 @@
       };
       hi.src = fullRes(photo.id);
 
-      lbCounter.textContent = `${index + 1} / ${visiblePhotos.length}`;
     }
 
     function prevPhoto() {
@@ -715,6 +765,93 @@
       if (Math.abs(dx) > 50) dx < 0 ? nextPhoto() : prevPhoto();
     });
 
+    // likes
+    const isLiked    = id => JSON.parse(localStorage.getItem('liked') || '[]').includes(id);
+    const saveLike   = id => {
+      const liked = JSON.parse(localStorage.getItem('liked') || '[]');
+      localStorage.setItem('liked', JSON.stringify([...liked, id]));
+    };
+    const removeLike = id => {
+      const liked = JSON.parse(localStorage.getItem('liked') || '[]').filter(x => x !== id);
+      localStorage.setItem('liked', JSON.stringify(liked));
+    };
+
+    async function fetchLikes(photoId) {
+      try {
+        const res = await fetch(`${SB_URL}/rest/v1/photo_likes?photo_id=eq.${photoId}&select=count`, {
+          headers: { apikey: SB_KEY }
+        });
+        const data = await res.json();
+        return data[0]?.count ?? 0;
+      } catch { return 0; }
+    }
+
+    async function incrementLike(photoId) {
+      try {
+        const res = await fetch(`${SB_URL}/rest/v1/rpc/increment_like`, {
+          method: 'POST',
+          headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_photo_id: photoId })
+        });
+        return await res.json();
+      } catch { return 0; }
+    }
+
+    async function decrementLike(photoId) {
+      try {
+        const res = await fetch(`${SB_URL}/rest/v1/rpc/decrement_like`, {
+          method: 'POST',
+          headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_photo_id: photoId })
+        });
+        return await res.json();
+      } catch { return 0; }
+    }
+
+    const lbLike      = document.getElementById('lb-like');
+    const lbLikeIcon  = document.getElementById('lb-like-icon');
+    const lbLikeCount = document.getElementById('lb-like-count');
+
+    async function updateLikeButton(photoId) {
+      const liked = isLiked(photoId);
+      lbLike.classList.toggle('liked', liked);
+      lbLikeCount.textContent = '';
+      const count = await fetchLikes(photoId);
+      lbLikeCount.textContent = count > 0 ? count : '';
+    }
+
+    function animateLike() {
+      lbLikeIcon.classList.remove('pop');
+      void lbLikeIcon.offsetWidth; // reflow to restart animation
+      lbLikeIcon.classList.add('pop');
+      lbLikeIcon.addEventListener('animationend', () => lbLikeIcon.classList.remove('pop'), { once: true });
+
+      const btn = lbLike.getBoundingClientRect();
+      const el = document.createElement('span');
+      el.className = 'like-float';
+      el.textContent = '+1';
+      el.style.bottom = (window.innerHeight - btn.top + 8) + 'px';
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove(), { once: true });
+    }
+
+    lbLike.addEventListener('click', async () => {
+      const photoId = visiblePhotos[lbIndex].id;
+      if (isLiked(photoId)) {
+        lbLike.classList.remove('liked');
+        removeLike(photoId);
+        const newCount = await decrementLike(photoId);
+        lbLikeCount.textContent = newCount > 0 ? newCount : '';
+      } else {
+        lbLike.classList.add('liked');
+        animateLike();
+        const newCount = await incrementLike(photoId);
+        saveLike(photoId);
+        lbLikeCount.textContent = newCount > 0 ? newCount : '';
+        try { umami.track('photo_like', { photo_id: photoId }); } catch {}
+      }
+    });
+
     // scroll depth
     const scrollDepths = new Set();
     window.addEventListener('scroll', () => {
@@ -722,7 +859,7 @@
       [25, 50, 75, 100].forEach(d => {
         if (pct >= d && !scrollDepths.has(d)) {
           scrollDepths.add(d);
-          umami.track('scroll_depth', { percent: d });
+          try { umami.track('scroll_depth', { percent: d }); } catch {}
         }
       });
     }, { passive: true });
